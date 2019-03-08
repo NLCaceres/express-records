@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  form(method='POST' action='')
+
+    div.form-group
+      label(for='employee') Employee:
+      select#employee.form-control(type='select', placeholder='Select Employee Involved in the Incident', name='employee' required='true')
+        for employee in employees
+          if report
+            option(value=employee._id selected=(employee._id.toString()==report.employee ? 'selected' : false) ) #{employee.name}
+          else
+            option(value=employee._id) #{employee.name}
+    
+    div.form-group
+      label(for='healthPractice') Health Practice:
+      select#healthPractice.form-control(type='select', placeholder='Select Problematic Health Practice of Incident', name='healthPractice' required='true')
+        for healthPractice in healthPractices
+          if report
+            option(value=healthPractice._id selected=(healthPractice._id.toString()==report.healthPractice ? 'selected' : false) ) #{healthPractice.label}
+          else
+            option(value=healthPractice._id) #{healthPractice.label}
+
+    div.form-group
+      label(for='location') Location:
+      select#employee.form-control(type='select', placeholder='Select Employee Involved in the Incident', name='employee' required='true')
+        for location in locations
+          if report
+            option(value=location._id selected=(location._id.toString()==report.location ? 'selected' : false) ) #{location.label}
+          else
+            option(value=location._id) #{location.label}
+
+    div.form-group
+      label(for='date')
+      input#employee.form-control(type='text', placeholder='Date of the Incident', name='date' value=(undefined===report ? '' : report.formatted_date_reported), required='true')
+
+    button.btn.btn-primary(type='submit') Submit
+  
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

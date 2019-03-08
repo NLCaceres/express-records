@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  h1 Dynamic Content
+
+  if error 
+    p Error encountered with dynamic content
+  else 
+    p The Health Record currently is
+
+    ul
+      li #[strong Reports:] !{reportCount}
+      li #[strong Employees:] !{employeeCount}
+      li #[strong Locations:] !{locationCount}
+      li #[strong Health Practices:] !{healthPracticeCount}
+      li #[strong Precautions:] !{precautionCount}
+      li #[strong Professions:] !{professionCount}

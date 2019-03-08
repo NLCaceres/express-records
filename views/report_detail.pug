@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1=title
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h3 #{report.healthPractice.name} Violation Reported on #{report.formatted_date_reported}
+
+    dl
+      dt(style="margin-left:10px;margin-top:10px;") Violation Committed by 
+
+      dd(style='margin-left:20px;margin-top:5px') Employee Name: #{report.employee.name}
+
+      dt(style="margin-left:10px;margin-top:10px;") Type of Violation
+
+      dd(style="margin-left:20px;margin-top:5px") #{report.healthPractice.precautionType.name}
+
+      dt(style="margin-left:10px;margin-top:10px;") Place of Occurrance 
+
+      if report.location.facilityName === 'HSC' 
+        dd(style="margin-left:20px;margin-top:5px") Health Sciences Campus
+      else
+        dd(style="margin-left:20px;margin-top:5px") University Park Campus
+      dd(style="margin-left:20px;margin-top:5px") Unit Number: #{report.location.unitNum}
+      dd(style="margin-left:20px;margin-top:5px") Room Number: #{report.location.roomNum}
+    
+  hr
+  p
+    a(href=report.url+'/delete') Delete Report
+  p
+    a(href=report.url+'/update') Update Report
+  
+
+          

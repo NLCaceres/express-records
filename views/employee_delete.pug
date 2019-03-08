@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 #{title} 
+
+  h3 Employee Name: #{employee.name}
+
+  h3 Employee Profession: #{employee.profession.observed_occupation} #{employee.profession.service_discipline}
+
+  h3 Are you sure you want to delete this employee record?
+
+  form(method='POST' action='')
+    div.form-group
+      input#employeeid.form-control(type='hidden',name='employeeid', required='true', value=employee._id )
+
+    button.btn.btn-primary(type='submit') Delete

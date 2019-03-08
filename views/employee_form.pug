@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  form(method='POST' action='')
+
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type="text", placeholder="First name of Employee", name='first_name', value=(undefined===employee ? '': employee.first_name), required='true')
+      label(for='surname') Surname:
+      input#first_name.form-control(type="text", placeholder="Surname (Family name) of Employee", name='surname', value=(undefined===employee ? '': employee.surname), required='true')
+    
+    div.form_group
+      select#profession.form-control(type='select', placeholder='Select a Profession', name='profession', required='true')
+        for profession in professions
+          if employee
+            //- This code must handle both the GET AND the POST so 
+            //- One part is employee.profession (an object passed in)
+            //- The other is a string passed in (the POST)
+            option(value=profession._id selected=(profession._id.toString()==employee.profession._id || profession._id.toString()==employee.profession) ? 'selected' : false) #{profession.label}
+          else 
+            option(value=profession._id) #{profession.observed_occupation} #{profession.service_discipline}
+    
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

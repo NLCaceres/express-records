@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1=title
+
+  ul
+    each report in reportList
+      if report.employee
+        li
+          a(href=report.url) #{report.healthPractice.name} Violation - #{report.employee.name} - #{report.formatted_date_reported} 
+      else 
+        li 
+          a(href=report.url) #{report.healthPractice.name} Violation - Missing Employee - #{report.formatted_date_reported} 
+    else
+      li There are no reports lately. Great!
+          
