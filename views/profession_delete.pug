@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  h3 #{profession.observed_occupation} #{profession.service_discipline}
+
+  if employees.length
+
+    h4(style='margin-left:20px;') Before you delete this profession, you must delete the following employees (which depend on this entry!) 
+
+    div(style='margin-left:30px;')
+
+      h4(style='margin-left:10px;') #[u Employees]
+
+      dl(style='margin-top:15px;')
+        for employee in employees
+          dt(style='margin-left:10px;')
+            a(href=employee.url) #{employee.name}
+          hr
+                    
+  else
+    h3 Do you really want to delete this profession?
+
+    form(method='POST' action='')
+      div.form-group
+        input#professionid.form-control(type='hidden',name='professionid', required='true', value=profession._id)
+      
+      button.btn.btn-primary(type='submit') Delete

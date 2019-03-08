@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1=title
+
+  ul
+    each profession in professionList
+      li 
+        a(href=profession.url) #{profession.observed_occupation} #{profession.service_discipline}
+
+    else
+      li There are no listed professions in the database

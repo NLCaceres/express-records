@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  p This is a list of employees available to report
+
+  ul 
+    each employee in employeeList
+      li 
+        a(href=employee.url) #{employee.first_name} #{employee.surname}
+        |  (#{employee.profession.observed_occupation} #{employee.profession.service_discipline})
+
+    else 
+      li There are no employees
+
+//- Syntax, each-in-else 
+    Similar to python's idea
+
+    Also note the .url in the link. It's a virtual field so we can use it like a regular property
+    Also a | character is required
+
+    Also also, the link is separated on two lines to keep only the name as a hyperlink,
+    not the professions part
+

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  h3(style='margin-left:20px;') Name: #{employee.name}
+
+  h3(style='margin-left:20px;') Profession: #{employee.profession.observed_occupation} #{employee.profession.service_discipline}
+
+  hr
+  p
+    a(href=employee.url+'/delete') Delete Employee
+  p
+    a(href=employee.url+'/update') Update Employee

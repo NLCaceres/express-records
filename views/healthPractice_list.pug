@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+
+  ul
+    each practice in healthPracticeList
+      li
+        a(href=practice.url) #{practice.name}
+    else
+      li There are no important health practices

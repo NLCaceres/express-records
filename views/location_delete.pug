@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  if reports.length
+
+    h3 Before you can delete this location, be sure to delete these report(s). They rely on this to properly display location!
+
+    ul
+      for report in reports
+        li 
+          a(href=report.url) #{report.employee.name} - #{report.healthPractice.label} - #{report.location.label} - #{report.formatted_date_reported}
+
+  else 
+    h3 #{location.name}
+
+    h3 Are you sure you want delete this location from the database?
+
+    form(method='POST' action='')
+      div.form-group
+        input#locationid.form-control(type='hidden',name='locationid', required='true', value=location._id)
+      
+      button.btn.btn-primary(type='submit') Delete

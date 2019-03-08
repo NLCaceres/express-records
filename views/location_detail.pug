@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1=title
+
+  if (location.facilityName === "UPC")
+    h3 Facility Name: University Park Campus
+
+  else
+    h3 Facility Name: Health Sciences Campus
+  
+  h3 Unit Number: #{location.unitNum}
+
+  h3 Room Number: #{location.roomNum}
+
+  hr
+  p
+    a(href=location.url+'/delete') Delete Location

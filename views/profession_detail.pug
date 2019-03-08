@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 #{title}
+  
+  h3(style="margin-left:20px;") #{profession.observed_occupation} #{profession.service_discipline}
+
+  hr
+  p
+    a(href=profession.url+'/delete') Delete Profession
