@@ -6,7 +6,10 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const catalogRouter = require("./routes/records");
+const reportRouter = require("./routes/records");
+const apiRouter = require("./routes/api");
+
+const cors = require("cors");
 
 const app = express();
 
@@ -16,6 +19,7 @@ const mongoose = require("mongoose");
 // Set up default mongoose connection
 const dev_db_url =
   "mongodb://NCaceres:zVSby3uZZ6KP6Sv@ds031108.mlab.com:31108/local-records";
+// Alternate from Atlas mongodb+srv://Ncaceres:zVSby3uZZ6KP6Sv@cluster0-5vd6p.azure.mongodb.net/test?retryWrites=true
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
@@ -36,9 +40,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://fathomless-atoll-23643.herokuapp.com/"
+];
+
+const corsOptions = {
+  origin: function(origin, callback) {
+    // allow curl and mobile Reqs
+    if (!origin) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg =
+        "The CORS policy for this site does not permit access from your requested origin";
+      return callback(new Error(msg), false);
+    }
+
+    return callback(null, true);
+  },
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/records", catalogRouter);
+app.use("/records", reportRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
