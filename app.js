@@ -85,4 +85,16 @@ app.use((err, req, res) => {
   res.render("error");
 });
 
+// Angular 2+ set up
+// ! Fingers crossed this actually works
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + "/dist/ang-records"));
+
+app.get("/*", function(req, res) {
+  res.sendFile(path.join(__dirname + "/dist/ang-records/index.html"));
+});
+
+// Start the app by listening on the default Heroku port
+app.listen(process.env.PORT || 8080);
+
 module.exports = app;
