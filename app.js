@@ -45,21 +45,31 @@ const allowedOrigins = [
   "https://fathomless-atoll-23643.herokuapp.com/"
 ];
 
+// const corsOptions = {
+//   origin: function(origin, callback) {
+// allow curl and mobile Reqs
+//     if (!origin) {
+//       return callback(null, true);
+//     }
+//     if (allowedOrigins.indexOf(origin) === -1) {
+//       const msg =
+//         "The CORS policy for this site does not permit access from your requested origin";
+//       return callback(new Error(msg), false);
+//     }
+
+//     return callback(null, true);
+//   },
+//   optionsSuccessStatus: 200
+// };
+
 const corsOptions = {
   origin: function(origin, callback) {
-    // allow curl and mobile Reqs
-    if (!origin) {
-      return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
     }
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg =
-        "The CORS policy for this site does not permit access from your requested origin";
-      return callback(new Error(msg), false);
-    }
-
-    return callback(null, true);
-  },
-  optionsSuccessStatus: 200
+  }
 };
 
 app.use(cors(corsOptions));
@@ -88,11 +98,11 @@ app.use((err, req, res) => {
 // Angular 2+ set up
 // ! Fingers crossed this actually works
 // Serve only the static files from the dist directory
-app.use(express.static(__dirname + "/dist/ang-records"));
+// app.use(express.static(__dirname + "/dist/ang-records"));
 
-app.get("/*", function(req, res) {
-  res.sendFile(path.join(__dirname + "/dist/ang-records/index.html"));
-});
+// app.get("/*", function(req, res) {
+//   res.sendFile(path.join(__dirname + "/dist/ang-records/index.html"));
+// });
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
