@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const allowedOrigins = [
   "http://localhost:4200",
-  "https://fathomless-atoll-23643.herokuapp.com/"
+  "https://fathomless-atoll-23643.herokuapp.com"
 ];
 
 // const corsOptions = {
@@ -69,10 +69,11 @@ const corsOptions = {
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }
+  },
+  optionsSuccessStatus: 200
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
