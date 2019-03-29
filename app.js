@@ -72,7 +72,7 @@ const corsOptions = {
   }
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
