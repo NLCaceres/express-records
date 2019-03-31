@@ -50,14 +50,23 @@ router.post("/report/:id/update", (req, res) => {
 
 // GET req for displaying a single report
 router.get("/report/:id", (req, res) => {
-  res.json({});
+  Report.findById(req.params.id)
+    .populate("employee healthPractice location")
+    .exec((err, foundReport) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(foundReport);
+    });
 });
 
 // GET req for displaying a list of reports.
 router.get("/reports", (req, res) => {
-  Report.find().exec((err, reports) => {
-    res.json(reports);
-  });
+  Report.find({})
+    .populate("employee healthPractice location")
+    .exec((err, reports) => {
+      res.json(reports);
+    });
 });
 
 // EMPLOYEE ROUTES //
@@ -95,12 +104,26 @@ router.post("/employee/:id/update", (req, res) => {
 
 // GET req for displaying a single employee
 router.get("/employee/:id", (req, res) => {
-  res.json({});
+  Employee.findById(req.params.id)
+    .populate("profession")
+    .exec((err, foundEmployee) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(foundEmployee);
+    });
 });
 
 // GET req for displaying a list of employees.
 router.get("/employees", (req, res) => {
-  res.json({});
+  Employee.find({})
+    .populate("profession")
+    .exec((err, employees) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(employees);
+    });
 });
 
 // HEALTH PRACTICE ROUTES //
@@ -138,12 +161,26 @@ router.post("/healthPractice/:id/update", (req, res) => {
 
 // GET req for displaying a single healthPractice
 router.get("/healthPractice/:id", (req, res) => {
-  res.json({});
+  HealthPractice.findById(req.params.id)
+    .populate("precautionType")
+    .exec((err, foundHealthPractice) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(foundHealthPractice);
+    });
 });
 
 // GET req for displaying a list of healthPractices.
 router.get("/healthPractices", (req, res) => {
-  res.json({});
+  HealthPractice.find({})
+    .populate("precautionType")
+    .exec((err, healthPractices) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(healthPractices);
+    });
 });
 
 // LOCATION ROUTES //
@@ -181,12 +218,22 @@ router.post("/location/:id/update", (req, res) => {
 
 // GET req for displaying a single location
 router.get("/location/:id", (req, res) => {
-  res.json({});
+  Location.findById(req.params.id).exec((err, foundLocation) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(foundLocation);
+  });
 });
 
 // GET req for displaying a list of locations.
 router.get("/locations", (req, res) => {
-  res.json({});
+  Location.find({}).exec((err, locations) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(locations);
+  });
 });
 
 // PRECAUTION ROUTES //
@@ -217,19 +264,34 @@ router.get("/precaution/:id/update", (req, res) => {
   res.json({});
 });
 
-// POST req for updating a precaution
-router.post("/precaution/:id/update", (req, res) => {
+// PUT req for updating a precaution
+router.put("/precaution/:id/update", (req, res) => {
   res.json({});
 });
 
 // GET req for displaying a single precaution
 router.get("/precaution/:id", (req, res) => {
-  res.json({});
+  Precaution.findById(req.params.id)
+    .populate("practices")
+    .exec((err, foundPrecaution) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(foundPrecaution);
+    });
 });
 
 // GET req for displaying a list of precautions.
 router.get("/precautions", (req, res) => {
-  res.json({});
+  Precaution.find({})
+    .populate("practices")
+    .exec((err, precautions) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.json(precautions);
+    });
 });
 
 // PROFESSION ROUTES //
