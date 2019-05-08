@@ -17,14 +17,8 @@ router.get("/", (req, res) => {
   res.json({});
 });
 
-// GET request for creating report.
-// NOTE order matters! Must come before routes that display the model
-router.get("/report/create", (req, res) => {
-  res.json({});
-});
-
 // POST request for creating a report
-router.post("/report/create", (req, res) => {
+router.post("/reports/create", (req, res) => {
   res.json({});
 });
 
@@ -71,14 +65,8 @@ router.get("/reports", (req, res) => {
 
 // EMPLOYEE ROUTES //
 
-// GET request for creating employee.
-// NOTE order matters! Must come before routes that display the model
-router.get("/employee/create", (req, res) => {
-  res.json({});
-});
-
 // POST request for creating a employee
-router.post("/employee/create", (req, res) => {
+router.post("/employees/create", (req, res) => {
   res.json({});
 });
 
@@ -128,14 +116,8 @@ router.get("/employees", (req, res) => {
 
 // HEALTH PRACTICE ROUTES //
 
-// GET request for creating healthPractice.
-// NOTE order matters! Must come before routes that display the model
-router.get("/healthPractice/create", (req, res) => {
-  res.json({});
-});
-
 // POST request for creating a healthPractice
-router.post("/healthPractice/create", (req, res) => {
+router.post("/healthPractices/create", (req, res) => {
   res.json({});
 });
 
@@ -185,14 +167,8 @@ router.get("/healthPractices", (req, res) => {
 
 // LOCATION ROUTES //
 
-// GET request for creating location.
-// NOTE order matters! Must come before routes that display the model
-router.get("/location/create", (req, res) => {
-  res.json({});
-});
-
 // POST request for creating a location
-router.post("/location/create", (req, res) => {
+router.post("/locations/create", (req, res) => {
   res.json({});
 });
 
@@ -238,14 +214,8 @@ router.get("/locations", (req, res) => {
 
 // PRECAUTION ROUTES //
 
-// GET request for creating precaution.
-// NOTE order matters! Must come before routes that display the model
-router.get("/precaution/create", (req, res) => {
-  res.json({});
-});
-
 // POST request for creating a precaution
-router.post("/precaution/create", (req, res) => {
+router.post("/precautions/create", (req, res) => {
   res.json({});
 });
 
