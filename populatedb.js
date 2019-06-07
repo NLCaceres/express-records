@@ -268,9 +268,11 @@ async function createLocationProfessions(cb) {
 async function createPracticeEmployees(cb) {
   healthPractices = await Promise.all([
     healthPracticeCreate("Hand Hygiene"),
-    healthPracticeCreate("PPO"),
-    healthPracticeCreate("Mask"),
-    healthPracticeCreate("Quarantine")
+    healthPracticeCreate("PPE"),
+    healthPracticeCreate("Contact"),
+    healthPracticeCreate("Droplet"),
+    healthPracticeCreate("Airborne"),
+    healthPracticeCreate("Contact Enteric")
   ]);
 
   console.log("This is practices: " + healthPractices);
