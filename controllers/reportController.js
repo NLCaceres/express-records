@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const { body, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+const { body, validationResult } = require("express-validator/check");
+const { sanitizeBody } = require("express-validator/filter");
 
-const Debug = require('debug')('report-controller');
+const Debug = require("debug")("report-controller");
 
-const Report = require('../models/report');
-const Employee = require('../models/employee');
-const Location = require('../models/location');
-const Precaution = require('../models/precaution');
-const Profession = require('../models/profession');
-const HealthPractice = require('../models/healthPractice');
+const Report = require("../models/report");
+const Employee = require("../models/employee");
+const Location = require("../models/location");
+const Precaution = require("../models/precaution");
+const Profession = require("../models/profession");
+const HealthPractice = require("../models/healthPractice");
 
 exports.index = async (req, res) => {
   let error;
@@ -46,8 +46,8 @@ exports.index = async (req, res) => {
   // and a data object that we will use to define the template
   // This data object is important since we create any random
   // set of variables that we personally define and then use (like normal sort of)
-  res.render('index', {
-    title: 'Local Health Records',
+  res.render("index", {
+    title: "Local Health Records",
     reportCount,
     employeeCount,
     locationCount,
@@ -60,32 +60,38 @@ exports.index = async (req, res) => {
 
 exports.report_list = (req, res, next) => {
   Report.find()
-    .populate('employee healthPractice location')
-    .sort([['date', 'desc']])
+    .populate("employee healthPractice location")
+    .sort([["date", "desc"]])
     .exec((err, reportList) => {
       if (err) {
         Debug(`Listing error: ${err}`);
         return next(err);
       }
-      res.render('report_list', { title: 'A list of reported incidences', reportList });
+      res.render("report_list", {
+        title: "A list of reported incidences",
+        reportList
+      });
     });
 };
 
 exports.report_detail = async (req, res, next) => {
   Report.findById(req.params.id)
-    .populate('employee location')
-    .populate({ path: 'healthPractice', populate: { path: 'precautionType', model: 'Precaution' } })
+    .populate("employee location")
+    .populate({
+      path: "healthPractice",
+      populate: { path: "precautionType", model: "Precaution" }
+    })
     .exec((err, report) => {
       if (err) {
         Debug(`Detailing error: ${err}`);
         return next(err);
       }
       if (report === null) {
-        const missingErr = new Error('Report not found');
+        const missingErr = new Error("Report not found");
         missingErr.status = 404;
         return next(missingErr);
       }
-      res.render('report_detail', { title: 'Report Information', report });
+      res.render("report_detail", { title: "Report Information", report });
     });
 };
 
@@ -96,8 +102,8 @@ exports.report_create_get = async (req, res, next) => {
       Location.find(),
       HealthPractice.find()
     ]);
-    res.render('report_form', {
-      title: 'Create new Report',
+    res.render("report_form", {
+      title: "Create new Report",
       employees,
       locations,
       healthPractices
@@ -108,29 +114,29 @@ exports.report_create_get = async (req, res, next) => {
 };
 
 exports.report_create_post = [
-  body('employee')
+  body("employee")
     .isLength({ min: 1 })
     .trim(),
-  body('healthPractice')
+  body("healthPractice")
     .isLength({ min: 1 })
     .trim(),
-  body('location')
+  body("location")
     .isLength({ min: 1 })
     .trim(),
-  body('date')
+  body("date")
     .isDataURI()
     .trim(),
 
-  sanitizeBody('employee')
+  sanitizeBody("employee")
     .trim()
     .escape(),
-  sanitizeBody('healthPractice')
+  sanitizeBody("healthPractice")
     .trim()
     .escape(),
-  sanitizeBody('location')
+  sanitizeBody("location")
     .trim()
     .escape(),
-  sanitizeBody('date')
+  sanitizeBody("date")
     .trim()
     .escape(),
 
@@ -145,7 +151,11 @@ exports.report_create_post = [
     });
 
     if (!errors.isEmpty()) {
-      res.render('report_form', { title: 'Create a new Report', report, errors: errors.array() });
+      res.render("report_form", {
+        title: "Create a new Report",
+        report,
+        errors: errors.array()
+      });
     } else {
       Report.findOne({
         employee: req.body.employee,
@@ -177,15 +187,15 @@ exports.report_create_post = [
 // This version is the easier one!
 exports.report_delete_get = (req, res, next) => {
   Report.findById(req.params.id)
-    .populate('employee healthPractice location')
+    .populate("employee healthPractice location")
     .exec((err, report) => {
       if (err) {
         return next(err);
       }
       if (report === null) {
-        res.redirect('/records/reports');
+        res.redirect("/records/reports");
       }
-      res.render('report_delete', { title: 'Delete this report?', report });
+      res.render("report_delete", { title: "Delete this report?", report });
     });
 };
 
@@ -202,15 +212,15 @@ exports.report_delete_post = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.redirect('/records/reports');
+      res.redirect("/records/reports");
     });
   });
 };
 
 exports.report_update_get = (req, res) => {
-  res.send('NOT IMPLEMENTED: ');
+  res.send("NOT IMPLEMENTED: ");
 };
 
 exports.report_update_post = (req, res) => {
-  res.send('NOT IMPLEMENTED: ');
+  res.send("NOT IMPLEMENTED: ");
 };
