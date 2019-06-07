@@ -19,7 +19,20 @@ router.get("/", (req, res) => {
 
 // POST request for creating a report
 router.post("/reports/create", (req, res) => {
-  res.json({});
+  const newReport = new Report({
+    employee: req.body.employee,
+    healthPractice: req.body.healthPractice,
+    location: req.body.location,
+    date_reported: req.body.date_reported
+  });
+  newReport.save(err => {
+    if (err) {
+      return next(err);
+    }
+    // ! No Content code
+    // ! Currently sending as workaround for response bug
+    res.sendStatus(204);
+  });
 });
 
 // GET req for deleting a report
