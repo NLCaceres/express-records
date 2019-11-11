@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 // POST request for creating a report
-router.post("/reports/create", (req, res) => {
+router.post("/reports/create", (req, res, next) => {
   const newReport = new Report({
     employee: req.body.employee,
     healthPractice: req.body.healthPractice,
@@ -56,7 +56,7 @@ router.post("/report/:id/update", (req, res) => {
 });
 
 // GET req for displaying a single report
-router.get("/report/:id", (req, res) => {
+router.get("/report/:id", (req, res, next) => {
   Report.findById(req.params.id)
     .populate("employee healthPractice location")
     .exec((err, foundReport) => {
@@ -104,7 +104,7 @@ router.post("/employee/:id/update", (req, res) => {
 });
 
 // GET req for displaying a single employee
-router.get("/employee/:id", (req, res) => {
+router.get("/employee/:id", (req, res, next) => {
   Employee.findById(req.params.id)
     .populate("profession")
     .exec((err, foundEmployee) => {
@@ -116,7 +116,7 @@ router.get("/employee/:id", (req, res) => {
 });
 
 // GET req for displaying a list of employees.
-router.get("/employees", (req, res) => {
+router.get("/employees", (req, res, next) => {
   Employee.find({})
     .populate("profession")
     .exec((err, employees) => {
@@ -155,7 +155,7 @@ router.post("/healthPractice/:id/update", (req, res) => {
 });
 
 // GET req for displaying a single healthPractice
-router.get("/healthPractice/:id", (req, res) => {
+router.get("/healthPractice/:id", (req, res, next) => {
   HealthPractice.findById(req.params.id)
     .populate("precautionType")
     .exec((err, foundHealthPractice) => {
@@ -167,7 +167,7 @@ router.get("/healthPractice/:id", (req, res) => {
 });
 
 // GET req for displaying a list of healthPractices.
-router.get("/healthPractices", (req, res) => {
+router.get("/healthPractices", (req, res, next) => {
   HealthPractice.find({})
     .populate("precautionType")
     .exec((err, healthPractices) => {
@@ -206,7 +206,7 @@ router.post("/location/:id/update", (req, res) => {
 });
 
 // GET req for displaying a single location
-router.get("/location/:id", (req, res) => {
+router.get("/location/:id", (req, res, next) => {
   Location.findById(req.params.id).exec((err, foundLocation) => {
     if (err) {
       return next(err);
@@ -216,7 +216,7 @@ router.get("/location/:id", (req, res) => {
 });
 
 // GET req for displaying a list of locations.
-router.get("/locations", (req, res) => {
+router.get("/locations", (req, res, next) => {
   Location.find({}).exec((err, locations) => {
     if (err) {
       return next(err);
@@ -253,7 +253,7 @@ router.put("/precaution/:id/update", (req, res) => {
 });
 
 // GET req for displaying a single precaution
-router.get("/precaution/:id", (req, res) => {
+router.get("/precaution/:id", (req, res, next) => {
   Precaution.findById(req.params.id)
     .populate("practices")
     .exec((err, foundPrecaution) => {
@@ -265,7 +265,7 @@ router.get("/precaution/:id", (req, res) => {
 });
 
 // GET req for displaying a list of precautions.
-router.get("/precautions", (req, res) => {
+router.get("/precautions", (req, res, next) => {
   Precaution.find({})
     .populate("practices")
     .exec((err, precautions) => {
@@ -279,7 +279,7 @@ router.get("/precautions", (req, res) => {
 
 // PROFESSION ROUTES //
 // POST request for creating a profession
-router.post("/professions/create", (req, res) => {
+router.post("/professions/create", (req, res, next) => {
   const newProfession = new Profession({
     observed_occupation: req.body.observed_occupation,
     service_discipline: req.body.service_discipline
@@ -295,7 +295,7 @@ router.post("/professions/create", (req, res) => {
 });
 
 // DELETE req for deleting a profession
-router.delete("/profession/:id", (req, res) => {
+router.delete("/profession/:id", (req, res, next) => {
   Profession.findByIdAndDelete(req.params.id, err => {
     if (err) {
       return next(err);
@@ -306,7 +306,7 @@ router.delete("/profession/:id", (req, res) => {
 });
 
 // PUT req for updating a profession
-router.put("/profession/:id", (req, res) => {
+router.put("/profession/:id", (req, res, next) => {
   Profession.findByIdAndUpdate(req.params.id, { $set: req.body }, err => {
     if (err) {
       return next(err);
@@ -324,7 +324,7 @@ router.get("/profession/:id", (req, res) => {
 });
 
 // GET req for displaying a list of professions.
-router.get("/professions", (req, res) => {
+router.get("/professions", (req, res, next) => {
   // ! Handle search queries
   if (req.query.label) {
     // ! Using regEx pays off to search for all similarites

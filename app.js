@@ -21,7 +21,7 @@ const dev_db_url =
   "mongodb://NCaceres:zVSby3uZZ6KP6Sv@ds031108.mlab.com:31108/local-records";
 // Alternate from Atlas mongodb+srv://Ncaceres:zVSby3uZZ6KP6Sv@cluster0-5vd6p.azure.mongodb.net/test?retryWrites=true
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 // Get the default connection
