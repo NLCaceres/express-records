@@ -22,7 +22,7 @@ const { username, password } = require("./config");
 // Set up default mongoose connection
 const dev_db_url = `mongodb://${username}:${password}@ds031108.mlab.com:31108/local-records`;
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 // Get the default connection
