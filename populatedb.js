@@ -23,7 +23,11 @@ let Report = require("./models/report");
 
 let mongoose = require("mongoose");
 let mongoDB = userArgs[0];
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 mongoose.connection.on(
@@ -356,7 +360,9 @@ async function finishHealthPractice(cb) {
     practicePrecautionAdd(prevPractices[0], precautions[0]),
     practicePrecautionAdd(prevPractices[1], precautions[0]),
     practicePrecautionAdd(prevPractices[2], precautions[1]),
-    practicePrecautionAdd(prevPractices[3], precautions[1])
+    practicePrecautionAdd(prevPractices[3], precautions[1]),
+    practicePrecautionAdd(prevPractices[4], precautions[1]),
+    practicePrecautionAdd(prevPractices[5], precautions[1])
   ]);
 
   console.log("This is health practices now: " + healthPractices);
@@ -448,5 +454,3 @@ async.series(
     mongoose.connection.close();
   }
 );
-
-// mongodb://<ExampleUser>:<ExamplePass>@ds031108.mlab.com:31108/local-records
