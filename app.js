@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const favicon = require("serve-favicon");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -16,10 +17,10 @@ const app = express();
 // Import the mongoose module
 const mongoose = require("mongoose");
 
+const { username, password } = require("./config");
+
 // Set up default mongoose connection
-const dev_db_url =
-  "mongodb://<ExampleUser>:<ExamplePass>@ds031108.mlab.com:31108/local-records";
-// Alternate from Atlas mongodb+srv://<ExampleUser>:<ExamplePass>@cluster0-5vd6p.azure.mongodb.net/test?retryWrites=true
+const dev_db_url = `mongodb://${username}:${password}@ds031108.mlab.com:31108/local-records`;
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
@@ -74,6 +75,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
