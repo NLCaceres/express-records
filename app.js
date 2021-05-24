@@ -4,9 +4,15 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const favicon = require("serve-favicon");
+// require("dotenv").config(); //* Enables process.env vars + USUALLY easier / more natural than using a config file to export env vars
+//? Why isn't it easier here? Because we'll have to CONSTANTLY use it in every file that requires env vars
+//? That aspect of using dotenv as a package.json dependency (vs as a devDependency) is very easy to take for granted 
+//? When more opinionated frameworks (like Laravel) will inject those env vars throughout your monolith app (front-end & back-end). 
+//? E.g. Angular 2+ delegates secret env vars entirely to the backend since all env vars set in your Ng app will be visible once committed in the repo 
+const { dbUsername, dbPassword } = require("./config"); //* Instead, we can have a config.js file load all necessary env vars and port in any we need!
+//* Comes down to preference, but the bonus of config.js means 1 less package.json dependency (devDependency instead)
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
 const reportRouter = require("./routes/records");
 const apiRouter = require("./routes/api");
 
@@ -14,17 +20,12 @@ const cors = require("cors");
 
 const app = express();
 
-// Import the mongoose module
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); //* MongoDB ODM (Object Document Mapper - similar to ORM, Object Relational Mapper)
 
-const { username, password } = require("./config");
-
-// Set up default mongoose connection
-const dev_db_url = `mongodb://${username}:${password}@ds031108.mlab.com:31108/local-records`;
 // Alternate from Atlas
-const alt_dev_db_url = `mongodb+srv://${username}:${password}@cluster0-5vd6p.azure.mongodb.net/dev?retryWrites=true&w=majority`;
+const alt_dev_db_url = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.5vd6p.azure.mongodb.net/dev?retryWrites=true&w=majority`;
 
-const mongoDB = process.env.MONGODB_URI || alt_dev_db_url;
+const mongoDB = process.env.DB_URL || alt_dev_db_url;
 mongoose.connect(mongoDB, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -50,7 +51,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const allowedOrigins = [
   "http://localhost:4200",
-  "https://fathomless-atoll-23643.herokuapp.com"
+  "https://infection-prevention-ang.herokuapp.com"
 ];
 
 // const corsOptions = {
@@ -86,7 +87,6 @@ app.use(cors(corsOptions));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/records", reportRouter);
 app.use("/api", apiRouter);
 
