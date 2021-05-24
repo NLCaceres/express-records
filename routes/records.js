@@ -72,48 +72,48 @@ router.get("/employees", employeeController.employee_list);
 // GET request for creating healthPractice.
 // NOTE order matters! Must come before routes that display the model
 router.get(
-  "/healthPractice/create",
+  "/health-practices/create",
   healthPracticeController.healthPractice_create_get
 );
 
 // POST request for creating a healthPractice
 router.post(
-  "/healthPractice/create",
+  "/health-practices/create",
   healthPracticeController.healthPractice_create_post
 );
 
 // GET req for deleting a healthPractice
 router.get(
-  "/healthPractice/:id/delete",
+  "/health-practices/:practiceName/delete",
   healthPracticeController.healthPractice_delete_get
 );
 
 // POST req for deleting a healthPractice
 router.post(
-  "/healthPractice/:id/delete",
+  "/health-practices/:practiceName/delete",
   healthPracticeController.healthPractice_delete_post
 );
 
 // GET req for updating a healthPractice
 router.get(
-  "/healthPractice/:id/update",
+  "/health-practices/:practiceName/update",
   healthPracticeController.healthPractice_update_get
 );
 
 // POST req for updating a healthPractice
 router.post(
-  "/healthPractice/:id/update",
+  "/health-practices/:practiceName/update",
   healthPracticeController.healthPractice_update_post
 );
 
 // GET req for displaying a single healthPractice
 router.get(
-  "/healthPractice/:id",
+  "/health-practices/:practiceName",
   healthPracticeController.healthPractice_detail
 );
 
 // GET req for displaying a list of healthPractices.
-router.get("/healthPractices", healthPracticeController.healthPractice_list);
+router.get("/health-practices", healthPracticeController.healthPractice_list);
 
 // LOCATION ROUTES //
 

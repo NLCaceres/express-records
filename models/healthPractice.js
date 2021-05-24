@@ -8,7 +8,11 @@ const HealthPracticeSchema = new Schema({
   precautionType: { type: Schema.ObjectId, ref: 'Precaution' }
 });
 
-HealthPracticeSchema.virtual('url').get(() => '/records/health-practices');
+HealthPracticeSchema.virtual('urlSafeName').get(function() {
+  return this.name.toLowerCase().replace(" ", "_")
+})
+
+HealthPracticeSchema.virtual('url').get(function() { return `/records/health-practices/${this.urlSafeName}` });
 
 HealthPracticeSchema.virtual('label').get(function() {
   return `${this.name} Violation`;
