@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-const { body, validationResult } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { body, validationResult } = require("express-validator");
 
 const Debug = require("debug")("report-controller");
 
@@ -114,33 +113,26 @@ exports.report_create_get = async (req, res, next) => {
 };
 
 exports.report_create_post = [
+  //* Validation
   body("employee")
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
   body("healthPractice")
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
   body("location")
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
   body("date")
     .isDataURI()
-    .trim(),
-
-  sanitizeBody("employee")
-    .trim()
-    .escape(),
-  sanitizeBody("healthPractice")
-    .trim()
-    .escape(),
-  sanitizeBody("location")
-    .trim()
-    .escape(),
-  sanitizeBody("date")
     .trim()
     .escape(),
 
   (req, res, next) => {
+    //* Pipe validation errors into ResultObj with following keys: { msg, param, value, location, nestedErrors } 
     const errors = validationResult(req);
 
     const report = new Report({

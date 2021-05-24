@@ -1,5 +1,4 @@
-const { body, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+const { body, validationResult } = require('express-validator');
 const Profession = require('../models/profession');
 const Employee = require('../models/employee');
 
@@ -34,19 +33,22 @@ exports.profession_create_get = (req, res) => {
 exports.profession_create_post = [
   body('observed_occupation', 'Occupation required')
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
   body('service_discipline', 'Service discipline required')
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
 
-  sanitizeBody('observed_occupation')
-    .trim()
-    .escape(),
-  sanitizeBody('service_discipline')
-    .trim()
-    .escape(),
+  // sanitizeBody('observed_occupation')
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody('service_discipline')
+  //   .trim()
+  //   .escape(),
 
   (req, res, next) => {
+    //* Pipe validation errors into ResultObj with following keys: { msg, param, value, location, nestedErrors } 
     const errors = validationResult(req);
 
     const profession = new Profession({

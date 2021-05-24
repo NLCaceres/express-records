@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
-const { body, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+const { body, validationResult } = require('express-validator');
 const Location = require('../models/location');
 const Report = require('../models/report');
 
@@ -38,36 +37,40 @@ exports.location_create_get = (req, res, next) => {
 // The three steps! = three middleware functions
 // The router function will call them in order
 exports.location_create_post = [
-  // Three steps
-  // Validate with whatever you need it to be
+  //* 1st: Validate incoming data to check for possible improper data that client-side missed
+  //* 2nd: Sanitize the validated data, so there's no odd formatting AND more importantly, to prevent attacks (XSS comes to mind)!
   body('facilityName', 'Facility Name Required, USC or HSC')
     .isLength({ min: 1, max: 3 })
-    .trim(),
-  body('unitNum')
+    .trim()
+    .escape(),
+  body('unitNum') //* Validating phase
     .isLength({ min: 1, max: 2 })
     .withMessage('Unit Number required, eg, 1')
     .isNumeric()
-    .withMessage('Please enter the unit NUMBER'),
+    .withMessage('Please enter the unit NUMBER')
+    .trim() //* Sanitizing phase
+    .escape(),
   body('roomNum')
     .isLength({ min: 1, max: 4 })
     .withMessage('Room number required, eg, 123')
     .isNumeric()
-    .withMessage('Please enter the room NUMBER'),
-
-  // Sanitize it by trimming and escaping
-  sanitizeBody('facilityName')
-    .trim()
-    .escape(),
-  sanitizeBody('unitNum')
-    .trim()
-    .escape(),
-  sanitizeBody('roomNum')
-    .trim()
+    .withMessage('Please enter the room NUMBER')
+    .trim() 
     .escape(),
 
-  // Process request
+  // sanitizeBody('facilityName')
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody('unitNum')
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody('roomNum')
+  //   .trim()
+  //   .escape(),
+
+  //* Process request
   (req, res, next) => {
-    // Used to extract the validation issues from the request
+    //* Pipe validation errors into ResultObj with following keys: { msg, param, value, location, nestedErrors } 
     const errors = validationResult(req);
 
     const location = new Location({

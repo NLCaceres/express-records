@@ -1,5 +1,5 @@
-const { body, validationResult } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { body, validationResult } = require("express-validator");
+const { sanitizeBody } = require("express-validator"); //* Deprecated
 
 const Debug = require("debug")("employee-controller");
 
@@ -65,26 +65,27 @@ exports.employee_create_post = [
   body("first_name", "Please enter the first name of the employee")
     .isLength({ min: 1 })
     .isAlpha()
-    .trim(),
+    .trim()
+    .escape(),
   body("surname", "Please enter the surname (family name) of the employee")
     .isLength({ min: 1 })
     .isAlpha()
-    .trim(),
+    .trim()
+    .escape(),
   body("profession", "Please select a profession for this employee")
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
 
-  // Escaping helps get rid of bad html
-  // trim() gets rid of troublesome whitespace
-  sanitizeBody("first_name")
-    .trim()
-    .escape(),
-  sanitizeBody("surname")
-    .trim()
-    .escape(),
-  sanitizeBody("profession")
-    .trim()
-    .escape(),
+  // sanitizeBody("first_name")
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody("surname")
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody("profession")
+  //   .trim()
+  //   .escape(),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -208,29 +209,31 @@ exports.employee_update_post = [
   body("first_name", "Please enter the first name of the employee")
     .isLength({ min: 1 })
     .isAlpha()
-    .trim(),
+    .trim()
+    .escape(),
   body("surname", "Please enter the surname (family name) of the employee")
     .isLength({ min: 1 })
     .isAlpha()
-    .trim(),
+    .trim()
+    .escape(),
   body("profession", "Please select a profession for this employee")
     .isLength({ min: 1 })
-    .trim(),
+    .trim()
+    .escape(),
 
-  // Escaping helps get rid of bad html
-  // trim() gets rid of troublesome whitespace
-  sanitizeBody("first_name")
-    .trim()
-    .escape(),
-  sanitizeBody("surname")
-    .trim()
-    .escape(),
-  sanitizeBody("profession")
-    .trim()
-    .escape(),
+  // sanitizeBody("first_name")
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody("surname")
+  //   .trim()
+  //   .escape(),
+  // sanitizeBody("profession")
+  //   .trim()
+  //   .escape(),
 
   async (req, res, next) => {
-    const errors = validationResult(req);
+    //* Pipe validation errors into ResultObj with following keys: { msg, param, value, location, nestedErrors } 
+    const errors = validationResult(req); 
 
     // THIS IS WHERE SOMETHING IS DIFFERENT!
     // We add an id based on the get request so we don't create a new object (really just a new id)
