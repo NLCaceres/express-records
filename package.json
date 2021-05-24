@@ -2,38 +2,38 @@
   "name": "express-local-records",
   "version": "0.0.0",
   "engines": {
-    "node": "12.4.0"
+    "node": "14.17.0"
   },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start_local": "node -r dotenv/config ./bin/www",
     "devstart": "nodemon ./bin/www"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.0",
     "compression": "^1.7.4",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "express-validator": "^5.3.1",
-    "helmet": "^3.21.2",
-    "http-errors": "~1.6.2",
-    "moment": "^2.24.0",
-    "mongoose": "^5.8.11",
+    "debug": "^4.3.1",
+    "express": "~4.17.0",
+    "express-validator": "^6.11.0",
+    "helmet": "^4.6.0",
+    "http-errors": "~1.8.0",
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.10",
     "morgan": "~1.9.0",
-    "pug": "^2.0.4",
+    "pug": "~3.0.2",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-config-prettier": "^3.6.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-prettier": "^3.1.1",
-    "nodemon": "^1.19.4",
-    "prettier": "^1.18.2"
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
   }
 }
